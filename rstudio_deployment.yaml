@@ -47,7 +47,7 @@ spec:
         app: rstudio
     spec:
       containers:
-      - image: quay.io/rocker/rstudio:rhel7-latest
+      - image: quay.agilesof.com/mbach/rstudio:rhel7-latest
         imagePullPolicy: Always
         name: rstudio-rhel7
         ports:
