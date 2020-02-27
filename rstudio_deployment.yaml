@@ -1,0 +1,62 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rstudio-pv-claim
+  labels:
+    app: rstudio
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rstudio
+  labels:
+    app: rstudio
+spec:
+  ports:
+    - port: 8787
+      name: rstudio
+      protocol: TCP
+      targetPort: 8787
+  selector:
+    app: rstudio
+  clusterIP: None
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: rstudio
+  labels:
+    app: rstudio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rstudio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: rstudio
+    spec:
+      containers:
+      - image: quay.io/rocker/rstudio:rhel7-latest
+        imagePullPolicy: Always
+        name: rstudio-rhel7
+        ports:
+        - containerPort: 8787
+          name: rstudio
+        volumeMounts:
+        - name: rstudio-persistent-storage
+          mountPath: /home/rstudio-server
+      volumes:
+      - name: rstudio-persistent-storage
+        persistentVolumeClaim:
+          claimName: rstudio-pv-claim
