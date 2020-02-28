@@ -31,7 +31,7 @@ objects:
       - "ReadWriteOnce"
     resources:
       requests:
-        storage: 512Mi
+        storage: 2G
 
 - apiVersion: v1
   kind: Service
@@ -162,7 +162,7 @@ parameters:
   displayName: Memory Limit
   name: MEMORY_LIMIT
   required: true
-  value: 2G
+  value: 512Mi
 
 - description: The URL of the repository with your application source code
   displayName: Git Repository URL
