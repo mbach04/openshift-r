@@ -42,8 +42,6 @@ objects:
     - port: 80
       targetPort: 8787
       name: ${NAME}-service
-    selector:
-      app: ${NAME}
 
 - apiVersion: v1
   kind: Route
